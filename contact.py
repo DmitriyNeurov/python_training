@@ -1,4 +1,4 @@
-__author__ = 'Комп'
+# -*- coding: utf-8 -*-
 
 class Contact:
 

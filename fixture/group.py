@@ -38,7 +38,7 @@ class GroupHelper:
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
 
-    def modification_first_group(self):
+    def modify_first_group(self, group):
         wd = self.app.wd
         self.return_to_groups_page()
         # modification first group
@@ -46,13 +46,13 @@ class GroupHelper:
         wd.find_element_by_name("edit").click()
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys("PDT - Py, group 3")
+        wd.find_element_by_name("group_name").send_keys(group.name)
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys("Test automation1")
+        wd.find_element_by_name("group_header").send_keys(group.header)
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys("Each tester should be able to program :)))")
+        wd.find_element_by_name("group_footer").send_keys(group.footer)
         wd.find_element_by_name("update").click()
         self.return_to_groups_page()
 

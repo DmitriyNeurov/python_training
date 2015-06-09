@@ -1,4 +1,5 @@
 __author__ = 'User'
+from model.contact import Contact
 
 class ContactHelper:
 
@@ -43,6 +44,7 @@ class ContactHelper:
 
     def create(self, contact):
         wd = self.app.wd
+        self.app.open_home_page()
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
         # submit contact creation
@@ -50,6 +52,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
+        self.app.open_home_page()
         # delete first contact
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
@@ -58,6 +61,7 @@ class ContactHelper:
     def modify_first_contact(self, new_contact_date):
         # open modification form
         wd = self.app.wd
+        self.app.open_home_page()
         wd.find_element_by_css_selector("img[alt=\"Edit\"]").click()
         self.fill_contact_form(new_contact_date)
         # submit modification
@@ -66,6 +70,18 @@ class ContactHelper:
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        contacts = []
+        for element in wd.find_elements_by_name("entry"):
+            lastname = element.find_elements_by_tag_name("td")[1].text
+            firstname = element.find_elements_by_tag_name("td")[2].text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
+        return contacts
+
 
 
 

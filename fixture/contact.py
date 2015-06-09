@@ -49,6 +49,7 @@ class ContactHelper:
         self.fill_contact_form(contact)
         # submit contact creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.contact_cash = None
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -57,6 +58,7 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
+        self.contact_cash = None
 
     def modify_first_contact(self, new_contact_date):
         # open modification form
@@ -66,21 +68,26 @@ class ContactHelper:
         self.fill_contact_form(new_contact_date)
         # submit modification
         wd.find_element_by_name("update").click()
+        self.contact_cash = None
 
     def count(self):
         wd = self.app.wd
+        self.app.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cash=None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.app.open_home_page()
-        contacts = []
-        for element in wd.find_elements_by_name("entry"):
-            lastname = element.find_elements_by_tag_name("td")[1].text
-            firstname = element.find_elements_by_tag_name("td")[2].text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
-        return contacts
+        if self.contact_cash is None:
+            wd = self.app.wd
+            self.app.open_home_page()
+            self.contact_cash = []
+            for element in wd.find_elements_by_name("entry"):
+                lastname = element.find_elements_by_tag_name("td")[1].text
+                firstname = element.find_elements_by_tag_name("td")[2].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contact_cash.append(Contact(firstname=firstname, lastname=lastname, id=id))
+        return list(self.contact_cash)
 
 
 

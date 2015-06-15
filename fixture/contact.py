@@ -40,6 +40,7 @@ class ContactHelper:
             wd.find_element_by_xpath("//div[@id='content']/form/select[2]//option[2]").click()
         self.change_field_value("byear", contact.byear)
         self.change_field_value("address2", contact.address2)
+        self.change_field_value("phone2", contact.phone2)
         self.change_field_value("notes", contact.notes)
 
     def create(self, contact):
@@ -105,7 +106,7 @@ class ContactHelper:
                 all_phones = cells[5].text.splitlines()
                 self.contact_cash.append(Contact(firstname=firstname, lastname=lastname, id=id,
                                                  home=all_phones[0], mobile=all_phones[1],
-                                                 work=all_phones[2]))
+                                                 work=all_phones[2], phone2=all_phones[3]))
         return list(self.contact_cash)
 
     def get_contact_info_from_edit_page(self, index):
@@ -117,9 +118,10 @@ class ContactHelper:
         home = wd.find_element_by_name("home").get_attribute("value")
         work = wd.find_element_by_name("work").get_attribute("value")
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
+        phone2 = wd.find_element_by_name("phone2").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id,
                        home=home, mobile=mobile,
-                       work=work)
+                       work=work, phone2=phone2)
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd

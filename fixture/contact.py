@@ -115,6 +115,11 @@ class ContactHelper:
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
         self.open_contact_to_edit_by_index(index)
+        address, email, email2, email3, firstname, home, id, lastname, mobile, phone2, work = self.get_element_value(wd)
+        return Contact(firstname=firstname, lastname=lastname, id=id, address=address, email=email,
+                       email2=email2, email3=email3, home=home, mobile=mobile, work=work, phone2=phone2)
+
+    def get_element_value(self, wd):
         firstname = wd.find_element_by_name("firstname").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
@@ -126,8 +131,7 @@ class ContactHelper:
         work = wd.find_element_by_name("work").get_attribute("value")
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
         phone2 = wd.find_element_by_name("phone2").get_attribute("value")
-        return Contact(firstname=firstname, lastname=lastname, id=id, address=address, email=email,
-                       email2=email2, email3=email3, home=home, mobile=mobile, work=work, phone2=phone2)
+        return address, email, email2, email3, firstname, home, id, lastname, mobile, phone2, work
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd

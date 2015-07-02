@@ -31,6 +31,11 @@ class Application:
         wd = self.wd
         wd.get(self.base_url)
 
+
+    def setUp(self):
+        self.wd = webdriver()
+        self.wd.implicitly_wait(5)
+
     def destroy(self):
         self.wd.quit()
 

@@ -134,9 +134,9 @@ class ContactHelper:
 
         return list(self.contact_cash)
 
-    def get_contact_info_from_edit_page(self, index):
+    def get_contact_info_from_edit_page(self):
         wd = self.app.wd
-        self.open_contact_to_edit_by_index(index)
+        self.open_contact_to_edit()
         address, email, email2, email3, firstname, home, id, lastname, mobile, phone2, work = self.get_element_value(wd)
         return Contact(firstname=firstname, lastname=lastname, id=id, address=address, email=email,
                        email2=email2, email3=email3, home=home, mobile=mobile, work=work, phone2=phone2)
@@ -155,11 +155,11 @@ class ContactHelper:
         phone2 = wd.find_element_by_name("phone2").get_attribute("value")
         return address, email, email2, email3, firstname, home, id, lastname, mobile, phone2, work
 
-    def open_contact_to_edit_by_index(self, index):
+    def open_contact_to_edit(self):
         wd = self.app.wd
         self.app.open_home_page()
-        row = wd.find_elements_by_name("entry")[index]
-        cell = row.find_elements_by_tag_name("td")[7]
+        row = wd.find_element_by_name("entry")
+        cell = row.find_element_by_tag_name("td")[7]
         cell.find_element_by_tag_name("a").click()
 
     def open_contact_view_by_index(self, index):

@@ -2,18 +2,13 @@ import re
 from random import randrange
 from model.contact import Contact
 
-def test_date_on_home_page(app):
-    if app.contact.count() == 0:
+def test_date_on_home_page(app, db):
+    if db.get_contact_list() == 0:
         app.contact.create(Contact(firstname="Dmitriy"))
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
-    contact_from_home_page = app.contact.get_contact_list()[index]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
-    assert contact_from_home_page.firstname == contact_from_edit_page.firstname
-    assert contact_from_home_page.lastname == contact_from_edit_page.lastname
-    assert contact_from_home_page.address == contact_from_edit_page.address
-    assert contact_from_home_page.all_emails_from_home_page == merge_emails_like_on_home_page(contact_from_edit_page)
-    assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_edit_page)
+    old_contacts = db.get_contact_list()
+    randrange(len(old_contacts))
+    contact_from_home_page = app.contact.get_contact_list()
+    assert sorted(contact_from_home_page, key=Contact.id_or_max) == sorted(old_contacts, key=Contact.id_or_max)
 
 def clear(s):
     return re.sub("[() -]", "", s)

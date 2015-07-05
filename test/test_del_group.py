@@ -1,4 +1,3 @@
-__author__ = 'User'
 from model.group import Group
 import random
 
